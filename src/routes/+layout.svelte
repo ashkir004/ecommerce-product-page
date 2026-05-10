@@ -10,20 +10,3 @@
 </svelte:head>
 
 {@render children()}
-
-<style global>
-
-:global(.hide-sm) {
-    display: none;
-}
-
-@media (min-width: 64rem) {
-    :global(.show-lg) {
-        display: block;
-    }
-
-    :global(.hide-lg) {
-        display: none;
-    }
-}
-</style>

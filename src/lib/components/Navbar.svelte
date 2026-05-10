@@ -43,7 +43,7 @@
 
 </header>
 
-<style global>
+<style>
     header {
         display: flex;
         flex-direction: row;

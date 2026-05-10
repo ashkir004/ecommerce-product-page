@@ -31,6 +31,7 @@
     ];
 
     let currentIndex = $state(0);
+    let lightboxOpen = $state(false);
 
     function goPrevious() {
         if (currentIndex > 0) {
@@ -50,12 +51,13 @@
 </script>
 
 <div class="carousel">
-    <div class="content">
+    <button class="content disable-sm enable-lg"
+        onclick={() => lightboxOpen = true}>
         <img 
             class="product-img product-img-{products[currentIndex].id}" 
             src={products[currentIndex].image} 
             alt={products[currentIndex].alt} />
-    </div>
+    </button>
     <div class="control hide-lg">
         <button class="previous" onclick={goPrevious}>
             <img src={previous} alt="Previous Button" />
@@ -77,8 +79,34 @@
 </div>
 
 
+<div class="lightbox {lightboxOpen ? 'show-lg' : 'hide-lg'} hide-sm">
+    <button class="close" onclick={() => lightboxOpen = false} aria-label="Close Lightbox"></button>
+        <button class="content">
+            <img 
+                class="product-img product-img-{products[currentIndex].id}" 
+                src={products[currentIndex].image} 
+                alt={products[currentIndex].alt} />
+        </button>
+        <div class="control">
+            <button class="previous" onclick={goPrevious}>
+                <img src={previous} alt="Previous Button" />
+            </button>
+            <button class="next" onclick={goNext}>
+                <img src={next} alt="Next Button" />
+            </button>
+        </div>
+        <div class="thumbnails hide-sm show-lg">
+            {#each products as product, index (product.id)}
+                <button class="thumbnail" onclick={() => currentIndex = index}>
+                    <img 
+                        class="thumbnail thumbnail-{product.id} {index === currentIndex ? 'active' : ''}" 
+                        src={product.image} 
+                        alt={product.alt} />
+                </button>
+            {/each}
+        </div>
+</div>
 <style>
-
     .carousel {
         max-width: 100%;
         position: relative;
@@ -86,14 +114,16 @@
         flex-direction: column;
         align-items: center;
         gap: var(--space-400);
-        flex-grow: 1;
     }
 
     .content {
+        max-width: 100%;
         width: 100%;
-        height: auto;
-        background-color: var(--orange-500);
+        height: 100%;
+        /* background-color: var(--orange-500); */
         overflow: hidden;
+        border: none;
+        cursor: pointer;
     }
 
     .thumbnails {
@@ -111,6 +141,13 @@
         height: var(--space-1100);
         padding: 0;
         border-radius: calc(10 / 16 * 1rem);
+        cursor: pointer;
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .thumbnail.active {
@@ -121,8 +158,6 @@
     .product-img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        display: block;
     }
 
     .control {
@@ -145,7 +180,7 @@
         margin-right: var(--space-100);
     }
 
-    button {
+    button.previous, button.next {
         background-color: var(--white);
         border: none;
         width: var(--space-500);
@@ -157,8 +192,58 @@
         cursor: pointer;
     }
     
+    .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(0, 0, 0, 0.85);
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-400);
+    }
+    
+    .lightbox .content {
+        width: 100%;
+        max-width: 28rem;
+        height: auto;
+    }
+    
+    .lightbox .control {
+        max-width: 28rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    button.close {
+        content: '';
+        width: var(--space-200);
+        height: var(--space-200);
+        background-color: var(--orange-500);
+        mask-image: url('$lib/assets/images/icon-close.svg');
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: right;
+        width: 28rem;
+        cursor: pointer;
+    }
+
+    .disable-sm {
+        pointer-events: none;
+    }
+    
     .hide-sm {
         display: none;
+    }
+
+    .object-contain {
+        display: block;
+        object-fit: contain;
     }
 
     @media (min-width: 48rem) {
@@ -210,6 +295,10 @@
 
         .show-lg {
             display: flex;
+        }
+
+        .enable-lg {
+            pointer-events: auto;
         }
     }
 
