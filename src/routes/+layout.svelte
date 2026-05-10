@@ -1,5 +1,6 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/images/favicon-32x32.png';
+	import '../app.css';
 
 	let { children } = $props();
 </script>
@@ -9,3 +10,20 @@
 </svelte:head>
 
 {@render children()}
+
+<style global>
+
+:global(.hide-sm) {
+    display: none;
+}
+
+@media (min-width: 64rem) {
+    :global(.show-lg) {
+        display: block;
+    }
+
+    :global(.hide-lg) {
+        display: none;
+    }
+}
+</style>

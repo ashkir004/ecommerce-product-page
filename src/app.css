@@ -1,0 +1,84 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --white: #ffffff;
+    --black: #000000;
+    --grey-950: #1D2026;
+    --grey-500: #69707D;
+    --grey-300: #C3CAD9;
+    --grey-100: #E4E9F2;
+    --grey-50: #F6F8FD;
+    --orange-500: #FF7E1B;
+    --orange-300: #FFAB6A;
+
+    --space-0: 0;
+    --space-25: calc(4 / 16 * 1rem);
+    --space-50: calc(6 / 16 * 1rem);
+    --space-100: calc(8 / 16 * 1rem);
+    --space-150: calc(12 / 16 * 1rem);
+    --space-200: calc(16 / 16 * 1rem);
+    --space-250: calc(20 / 16 * 1rem);
+    --space-300: calc(24 / 16 * 1rem);
+    --space-400: calc(32 / 16 * 1rem);
+    --space-500: calc(40 / 16 * 1rem);
+    --space-600: calc(48 / 16 * 1rem);
+    --space-650: calc(50 / 16 * 1rem);
+    --space-700: calc(56 / 16 * 1rem);
+    --space-800: calc(64 / 16 * 1rem);
+    --space-900: calc(72 / 16 * 1rem);
+    --space-1000: calc(80 / 16 * 1rem);
+    --space-1100: calc(88 / 16 * 1rem);
+    --space-1200: calc(96 / 16 * 1rem);
+    --space-1300: calc(104 / 16 * 1rem);
+    --space-1500: calc(120 / 16 * 1rem);
+    --space-1600: calc(128 / 16 * 1rem);
+
+    --font: 'Kumbh Sans', sans-serif;
+
+    --font-xl: calc(44 / 16 * 1rem);
+    --font-lg: calc(28 / 16 * 1rem);
+    --font-md: calc(16 / 16 * 1rem);
+    --font-sm: calc(15 / 16 * 1rem);
+    --font-xs: calc(13 / 16 * 1rem);
+    --font-xxs: calc(12 / 16 * 1rem);
+
+    --line-height-xxl: calc(48 / 16 * 1rem);
+    --line-height-xl: calc(32 / 16 * 1rem);
+    --line-height-lg: calc(26 / 16 * 1rem);
+    --line-height-md: calc(16 / 16 * 1rem);
+    --line-height-sm: calc(15 / 16 * 1rem);
+
+    --letter-spacing-lg: calc(2 / 16 * 1rem);
+    --letter-spacing-md: calc(1.85 / 16 * 1rem);
+
+    --w-bold: 700;
+    --w-regular: 400;
+}
+
+@font-face {
+    font-family: 'Kumbh Sans';
+    src: url("./lib/assets/fonts/KumbhSans-VariableFont_YOPQ\,wght.ttf") format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+body {
+    font-family: 'Kumbh Sans', sans-serif;
+}
+
+
+@media (min-width: 64rem) {
+    .show-lg {
+        display: block;
+    }
+
+    .hide-lg {
+        display: none;
+    }
+}
