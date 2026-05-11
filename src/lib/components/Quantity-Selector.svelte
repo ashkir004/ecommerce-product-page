@@ -2,17 +2,7 @@
     import minus from '$lib/assets/images/icon-minus.svg';
     import plus from '$lib/assets/images/icon-plus.svg';
 
-    let quantity = $state(0);
-
-    function decreaseQuantity() {
-        if (quantity > 0) {
-            quantity -= 1;
-        }
-    }
-
-    function increaseQuantity() {
-        quantity += 1;
-    }
+    let { increaseQuantity, decreaseQuantity, quantity } = $props();
 
 </script>
 

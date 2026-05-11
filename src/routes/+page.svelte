@@ -2,10 +2,54 @@
     import Navbar from "$lib/components/Navbar.svelte";
     import Carousel from "$lib/components/Carousel.svelte";
     import QuantitySelector from "$lib/components/Quantity-Selector.svelte";
+    import Cart from "$lib/components/Cart.svelte";
+
+    let isCartOpen = $state(false);
+
+    type Product = {
+        name: string;
+        price: number;
+        quantity: number;
+    };
+
+    let basket: { product: Product }[] = $state([]);
+    let product = $state({
+        name: 'Fall Limited Edition Sneakers',
+        price: 125.00,
+        quantity: 0
+    });
+
+    function toggleCart() {
+        isCartOpen = !isCartOpen;
+    }
+
+    function increaseQuantity() {
+        product.quantity += 1;
+    }
+
+    function decreaseQuantity() {
+        if (product.quantity > 0) {
+            product.quantity -= 1;
+        }
+    }
+
+    function addToCart() {
+        if (product.quantity > 0) {
+            basket = [...basket, { product }];         
+        }
+    }
+
+    function removeFromCart(index: number) {
+        basket = basket.filter((_, i) => i !== index);
+    }
+
+
+
 </script>
 
 <main>
-    <Navbar />
+    <Navbar toggleCart={toggleCart} basket={basket} />
+    <Cart isCartOpen={isCartOpen} basket={basket} removeFromCart={removeFromCart} />
     <Carousel />
     <section class="product-details">
         <h2 class="company-name">Sneaker Company</h2>
@@ -19,8 +63,14 @@
             <span class="original-price">$250.00</span>
         </div>
         <div class="add-to-cart-wrapper">
-            <QuantitySelector />
-            <button class="add-to-cart-btn">
+            <QuantitySelector 
+                increaseQuantity={increaseQuantity} 
+                decreaseQuantity={decreaseQuantity} 
+                quantity={product.quantity} 
+            />
+
+            <button class="add-to-cart-btn"
+                onclick={addToCart}>
                 Add to Cart
             </button>
         </div>
@@ -135,6 +185,8 @@
         mask-size: contain;
         mask-repeat: no-repeat;
     }
+
+    
 
     @media (min-width: 48rem) {
 

@@ -9,9 +9,9 @@
     let tabs = ['Collections', 'Men', 'Women', 'About', 'Contact'];
 
     let isMenuOpen = $state(false);
+    let { toggleCart, basket } = $props();
 
 </script>
-
 
 <header>
     <div class="menu_log-wrapper">
@@ -37,7 +37,9 @@
     </nav>
 
     <div class="cart_avatar-wrapper">
-        <img src={cart} alt="Cart Icon" class="cart" />
+        <button onclick={() => toggleCart()}>
+            <img src={cart} alt="Cart Icon" class="cart" /><span class="basket-length">{basket.length}</span>
+        </button>
         <img src={avatar} alt="User Avatar" class="avatar" />
     </div>
 
@@ -125,6 +127,25 @@
         width: 100%;
         max-width: var(--space-300);
         height: auto;
+    }
+
+    .cart_avatar-wrapper button {
+        position: relative;
+        background-color: aliceblue;
+    }
+
+    .basket-length {
+        color: var(--white);
+        background-color: var(--orange-500);
+        font-size: var(--font-xxs);
+        font-weight: var(--w-bold);
+        line-height: var(--line-height-sm);
+        padding: 0 var(--space-100);
+        border-radius: var(--space-200);
+        position: absolute;
+        top: -6px;
+        right: -10px;
+        min-width: var(--space-100);
     }
 
     @media (min-width: 48rem) {
