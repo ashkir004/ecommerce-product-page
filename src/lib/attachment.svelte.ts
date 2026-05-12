@@ -34,7 +34,7 @@ export function trapFocus(node: HTMLElement, nextFocusSelector: string = '.main'
 		}
 	}
 
-	focusable()[0]?.focus();
+	focusable()[2]?.focus();
 	const off = on(node, 'keydown', handleKeydown);
 
 	return () => {

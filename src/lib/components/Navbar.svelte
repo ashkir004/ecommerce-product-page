@@ -225,9 +225,13 @@
             line-height: var(--line-height-lg);
         }
 
-        .active {
-            border-bottom: 2px solid var(--orange-500);
+        nav ul li a {
+            outline: none;
         }
+
+        li:has(a:focus), li.active {
+            border-bottom: 2px solid var(--orange-500);
+        } 
 
         .cart_avatar-wrapper {
             align-self: stretch;
