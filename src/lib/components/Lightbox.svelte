@@ -10,7 +10,7 @@
 </script>
 
 
-<div class="lightbox {lightboxOpen ? 'show-lg' : 'hide-lg'} hide-sm" role="presentation" {@attach (element) => trapFocus(element, '.close', '.lightbox')}>
+<div class="lightbox {lightboxOpen ? 'show-lg' : 'hide-lg'} hide-sm" role="dialog" aria-modal="true" {@attach (element) => trapFocus(element, '.close', '.lightbox')}>
         <button class="close" onclick={() => closeLightbox()} aria-label="Close Lightbox"></button>
         <button class="content" aria-label="View Product Image in Lightbox">
             <img 

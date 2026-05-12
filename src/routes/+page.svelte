@@ -62,8 +62,8 @@
     <Cart isCartOpen={isCartOpen} basket={basket} removeFromCart={removeFromCart} />
     <Carousel />
     <section class="product-details">
-        <h2 class="company-name">{product.company}</h2>
-        <h1 class="product-name">{product.name}</h1>
+        <h1 class="company-name">{product.company}</h1>
+        <h2 class="product-name">{product.name}</h2>
         <p class="description">
             {product.description}
         </p>

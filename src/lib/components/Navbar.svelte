@@ -15,7 +15,7 @@
 
 </script>
 
-<header >
+<header>
     <div class="menu_log-wrapper">
         <button class="menu {isMenuOpen ? 'hide-sm' : 'show-sm'} hide-lg"
                  onclick={() => { isMenuOpen = true; toggleCart(false) }} aria-label="Open Menu">
@@ -23,19 +23,19 @@
         </button>
         <img src={logo} alt="Ecommerce Product Page Logo" class="logo" />
     </div>
-    <nav role="presentation"  class="{isMenuOpen ? 'show-sm' : 'hide-sm'} show-lg" 
-        onkeydown={(e) => {
-            if (e.key === 'Escape' && isMenuOpen) {
-                isMenuOpen = false;
-            }
-        }}
+    <nav class="{isMenuOpen ? 'show-sm' : 'hide-sm'} show-lg" 
+        
     >
         <button
             onclick={() => isMenuOpen = false}
             class="close-menu {isMenuOpen ? 'show-sm' : 'hide-sm'} hide-lg" aria-label="Close Menu">
             <img src={closeMenu} alt="Close Menu Icon" />
         </button>
-        <ul {@attach (element) => trapFocus(element, '.cart-btn')}>
+        <ul role="menubar" {@attach (element) => trapFocus(element, '.cart-btn')} onkeydown={(e) => {
+            if (e.key === 'Escape' && isMenuOpen) {
+                isMenuOpen = false;
+            }
+        }}>
             {#each tabs as tab, index (index)}
                 <li class={tab === activeTab ? 'active' : ''}>
                     <a href={`#${tab}`} onclick={() => activeTab = tab}>{tab}</a>
