@@ -77,7 +77,7 @@ body {
 *:focus {
     outline: 2px solid var(--orange-300);
     outline-offset: .5px;
-}
+}   
 
 
 @media (min-width: 64rem) {

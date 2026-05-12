@@ -59,7 +59,7 @@
 <main class="main">
     <Navbar toggleCart={toggleCart} basket={basket} />
     <Cart isCartOpen={isCartOpen} basket={basket} removeFromCart={removeFromCart} />
-    <Carousel product={product} />
+    <Carousel />
     <section class="product-details">
         <h2 class="company-name">{product.company}</h2>
         <h1 class="product-name">{product.name}</h1>

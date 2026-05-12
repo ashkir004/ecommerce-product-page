@@ -4,9 +4,9 @@
     import Img2 from "$lib/assets/images/image-product-2.jpg";
     import Img3 from "$lib/assets/images/image-product-3.jpg";
     import Img4 from "$lib/assets/images/image-product-4.jpg";
-    import next from "$lib/assets/images/icon-next.svg";
-    import previous from "$lib/assets/images/icon-previous.svg";
     import Lightbox from "$lib/components/Lightbox.svelte";
+	import Thumbnails from "./Thumbnails.svelte";
+	import Control from "./Control.svelte";
 
 
     const productImgs = [
@@ -34,7 +34,10 @@
 
     let currentIndex = $state(0);
     let lightboxOpen = $state(false);
-        
+
+    function setCurrentIndex(index) {
+        return currentIndex = index;
+    }
 
     function goPrevious() {
         if (currentIndex > 0) {
@@ -67,28 +70,19 @@
     <button class="content disable-sm enable-lg" aria-label="Open Lightbox"
         onclick={() => openLightbox()}>
         <img 
-            class="product-img product-img-{productImgs[currentIndex].id}" 
-            src={productImgs[currentIndex].image} 
+            class="product-img product-img-{productImgs[currentIndex].id} {lightboxOpen ? 'static-img' : ''}" 
+            src={lightboxOpen ? productImgs[0].image : productImgs[currentIndex].image} 
             alt={productImgs[currentIndex].alt} />
     </button>
-    <div class="control hide-lg">
-        <button class="previous" onclick={goPrevious}>
-            <img src={previous} alt="Previous Button" />
-        </button>
-        <button class="next" onclick={goNext}>
-            <img src={next} alt="Next Button" />
-        </button>
-    </div>
-    <div class="thumbnails hide-sm show-lg">
-        {#each productImgs as img, index (img.id)}
-            <button class="thumbnail" onclick={() => currentIndex = index}>
-                <img 
-                    class="thumbnail thumbnail-{img.id} {index === currentIndex && !lightboxOpen ? 'active' : ''}" 
-                    src={img.image} 
-                    alt={img.alt} />
-            </button>
-        {/each}
-    </div>
+
+    <Control goPrevious={goPrevious} goNext={goNext}/>
+
+    <Thumbnails 
+        productImgs={productImgs} 
+        currentIndex={currentIndex} 
+        lightboxOpen={lightboxOpen}
+        setCurrentIndex={setCurrentIndex}
+    />
 </div>
 
 {#if lightboxOpen}
@@ -99,6 +93,7 @@
         goNext={goNext} 
         lightboxOpen={lightboxOpen}
         closeLightbox={closeLightbox}
+        setCurrentIndex={setCurrentIndex}
     />
 {/if}
 
@@ -120,35 +115,6 @@
         overflow: hidden;
         border: none;
         cursor: pointer;
-    }
-
-    .thumbnails {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-400);
-    }
-
-    .thumbnail {
-        border: none;
-        background-color: transparent;
-        width: var(--space-1100);
-        height: var(--space-1100);
-        padding: 0;
-        border-radius: calc(10 / 16 * 1rem);
-        cursor: pointer;
-    }
-
-    .thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .thumbnail.active {
-        border: .125rem solid var(--orange-500);
-        opacity: 0.6;
     }
 
     .product-img {
@@ -175,18 +141,6 @@
 
     .next {
         margin-right: var(--space-100);
-    }
-
-    button.previous, button.next {
-        background-color: var(--white);
-        border: none;
-        width: var(--space-500);
-        height: var(--space-500);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
     }
     
     .lightbox {
