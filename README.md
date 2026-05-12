@@ -1,42 +1,84 @@
-# sv
+# Challenge
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Your challenge is to build out this e-commerce product page and get it looking as close to the design as possible.
 
-## Creating a project
+You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
 
-If you're seeing this, you've probably already done this step. Congrats!
+Your users should be able to:
 
-```sh
-# create a new project
-npx sv create my-app
+1. Open a lightbox gallery by clicking on the large product image
+2. Switch the large product image by clicking on the small thumbnail images
+3. Add items to the cart
+4. View the cart and remove items from it
+5. View the optimal layout for the site depending on their device's screen size
+6. See hover states for all interactive elements on the page
+
+## What I've Learned / Practised
+
+1. Masking Images to change the color of an Icon
+```css
+    .add-to-cart-btn::before {
+        content: '';
+        width: var(--space-250);
+        height: var(--space-250);
+        display: inline-block;
+        margin-right: var(--space-200);
+        background-color: var(--grey-950);
+        mask-image: url('$lib/assets/images/icon-cart.svg');
+        mask-size: contain;
+        mask-repeat: no-repeat;
+    }
+
 ```
 
-To recreate this project with the same configuration:
+2. Attachments in Svelte (Needs more work)
+3. State Management
+4. Passing data via props
+5. Passing event handlers via props
+6. Conditionally changing styles via utility classes in different breakpoints (Todo: make it global)
+7. Grid Layout on the Page level
+8. Flexbox Layout on the component level
+9. Responsive web design and Images
+```css
+.avatar {
+    width: 100%;
+    max-width: var(--space-300);
+    height: auto;
+}
 
-```sh
-# recreate this project
-npx sv@0.15.2 create --template minimal --types ts --add prettier eslint --install npm .
+```
+10. Centering an absolute element via `transform`
+
+```css
+.control {
+    width: 100%;
+    max-width: 28rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 ```
 
-## Developing
+11. Wrapping button on svelte-imported images to make it interactive
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+12. Accessibility: add `aria-label` to Icon buttons.
 
-```sh
-npm run dev
+13. Trapped Focus on Menu and Lightbox (Todo: Learn more)
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+14. Component Composition (Requires better planning ahead)
 
-## Building
 
-To create a production version of your app:
+### Live-Site
 
-```sh
-npm run build
-```
+- Todo
 
-You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+### Author
+
+- [ashkir004](https://www.frontendmentor.io/profile/ashkir004)

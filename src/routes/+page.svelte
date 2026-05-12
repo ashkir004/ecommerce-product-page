@@ -46,6 +46,7 @@
             basket[existingItemIndex].product.quantity += product.quantity;
             basket = [...basket];
         } else {
+            if (product.quantity === 0) product.quantity = 1;
             basket = [...basket, { product }];
         }
     }
