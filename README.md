@@ -73,10 +73,16 @@ Your users should be able to:
 
 14. Component Composition (Requires better planning ahead)
 
+## Built-with
+1. Svelte
+2. Sveltekit
+3. CSS grid & flexbox
+4. Javascript
+
 
 ### Live-Site
 
-- Todo
+- [Ecommerce Product Page](https://ecommerce-product-page-ashkir004.netlify.app/)
 
 
 ### Author

@@ -74,7 +74,7 @@ body {
     background-color: var(--white);
 }
 
-*:focus {
+*:focus-visible {
     outline: 2px solid var(--orange-300);
     outline-offset: .5px;
 }   
