@@ -9,11 +9,11 @@
 
 
 <div class="quantity-selector">
-    <button class="decrease" onclick={decreaseQuantity}>
+    <button class="decrease" onclick={decreaseQuantity} aria-label="Decrease Quantity">
         <img src={minus} alt="Decrease Quantity Button" />
     </button>
     <span class="quantity">{quantity}</span>
-    <button class="increase" onclick={increaseQuantity}>
+    <button class="increase" onclick={increaseQuantity} aria-label="Increase Quantity">
         <img src={plus} alt="Increase Quantity Button" />
     </button>
 </div>
@@ -36,6 +36,7 @@
         border: none;
         color: var(--orange-500);
         background-color: transparent;
+        cursor: pointer;
     }
 
     .quantity {

@@ -5,6 +5,8 @@
     import cart from '$lib/assets/images/icon-cart.svg';
     import avatar from '$lib/assets/images/image-avatar.png';
 
+    import { trapFocus } from '$lib/attachment.svelte';
+
     let activeTab = $state('Women');
     let tabs = ['Collections', 'Men', 'Women', 'About', 'Contact'];
 
@@ -13,21 +15,27 @@
 
 </script>
 
-<header>
+<header >
     <div class="menu_log-wrapper">
-        <button onclick={() => isMenuOpen = true}>
-            <img src={menu} alt="Menu Icon" 
-                class="menu {isMenuOpen ? 'hide-sm' : 'show-sm'} hide-lg" />
+        <button class="menu {isMenuOpen ? 'hide-sm' : 'show-sm'} hide-lg"
+                 onclick={() => { isMenuOpen = true; toggleCart(false) }} aria-label="Open Menu">
+            <img src={menu} alt="Menu Icon"/>  
         </button>
         <img src={logo} alt="Ecommerce Product Page Logo" class="logo" />
     </div>
-    <nav class="{isMenuOpen ? 'show-sm' : 'hide-sm'} show-lg">
+    <nav role="presentation"  class="{isMenuOpen ? 'show-sm' : 'hide-sm'} show-lg" 
+        onkeydown={(e) => {
+            if (e.key === 'Escape' && isMenuOpen) {
+                isMenuOpen = false;
+            }
+        }}
+    >
         <button
             onclick={() => isMenuOpen = false}
-            class="close-menu {isMenuOpen ? 'show-sm' : 'hide-sm'} hide-lg">
+            class="close-menu {isMenuOpen ? 'show-sm' : 'hide-sm'} hide-lg" aria-label="Close Menu">
             <img src={closeMenu} alt="Close Menu Icon" />
         </button>
-        <ul>
+        <ul {@attach (element) => trapFocus(element, '.cart-btn')}>
             {#each tabs as tab, index (index)}
                 <li class={tab === activeTab ? 'active' : ''}>
                     <a href={`#${tab}`} onclick={() => activeTab = tab}>{tab}</a>
@@ -37,7 +45,7 @@
     </nav>
 
     <div class="cart_avatar-wrapper">
-        <button onclick={() => toggleCart()}>
+        <button onclick={() => toggleCart()} aria-label="Toggle Cart" class="cart-btn">
             <img src={cart} alt="Cart Icon" class="cart" /><span class="basket-length">{basket.length}</span>
         </button>
         <img src={avatar} alt="User Avatar" class="avatar" />

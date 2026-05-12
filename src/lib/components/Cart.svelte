@@ -21,13 +21,13 @@
                 <li class="cart-item" > 
                     <img src={productImg} alt="Product" class="product-image" />
                     <div class="checkout-lines">
-                        <a href="#product-1">
+                        <p>
                             {item.product && item.product.name}
                             <span class="calculation">${item.product && item.product.price.toFixed(2)} x {item.product && item.product.quantity}</span>
                             <span class="total">${item.product && (item.product.price * item.product.quantity).toFixed(2)}</span>
-                        </a>
+                        </p>
                     </div>
-                    <button class="delete-icon" onclick={() => removeFromCart(index)}>
+                    <button class="delete-icon" onclick={() => removeFromCart(index)} aria-label="Remove Item from Cart">
                         <img src={deleteImg} alt="Delete Icon"  />
                     </button>
                 </li>
@@ -108,9 +108,9 @@
         line-height: var(--line-height-lg);
     }
 
-    .cart-item a {
+    .cart-item p {
         color: var(--grey-500);
-        text-decoration: none;
+        /* text-decoration: none; */
         font-size: var(--font-md);
         font-weight: var(--w-regular);
         line-height: var(--line-height-lg);

@@ -8,19 +8,25 @@
 
     type Product = {
         name: string;
+        company: string;
+        description: string;
         price: number;
+        discount: number;
         quantity: number;
     };
 
     let basket: { product: Product }[] = $state([]);
     let product = $state({
         name: 'Fall Limited Edition Sneakers',
+        company: 'Sneaker Company',
+        description: 'These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
         price: 125.00,
+        discount: 50,
         quantity: 0
     });
 
-    function toggleCart() {
-        isCartOpen = !isCartOpen;
+    function toggleCart(open?: boolean) {
+        isCartOpen = open ?? !isCartOpen;
     }
 
     function increaseQuantity() {
@@ -34,8 +40,13 @@
     }
 
     function addToCart() {
-        if (product.quantity > 0) {
-            basket = [...basket, { product }];         
+
+        const existingItemIndex = basket.findIndex(item => item.product.name === product.name);
+        if (existingItemIndex !== -1) {
+            basket[existingItemIndex].product.quantity += product.quantity;
+            basket = [...basket];
+        } else {
+            basket = [...basket, { product }];
         }
     }
 
@@ -43,24 +54,22 @@
         basket = basket.filter((_, i) => i !== index);
     }
 
-
-
 </script>
 
-<main>
+<main class="main">
     <Navbar toggleCart={toggleCart} basket={basket} />
     <Cart isCartOpen={isCartOpen} basket={basket} removeFromCart={removeFromCart} />
-    <Carousel />
+    <Carousel product={product} />
     <section class="product-details">
-        <h2 class="company-name">Sneaker Company</h2>
-        <h1 class="product-name">Fall Limited Edition Sneakers</h1>
+        <h2 class="company-name">{product.company}</h2>
+        <h1 class="product-name">{product.name}</h1>
         <p class="description">
-            These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.
+            {product.description}
         </p>
         <div class="price-wrapper">
-            <span class="current-price">$125.00</span>
-            <span class="discount">50%</span>
-            <span class="original-price">$250.00</span>
+            <span class="current-price">${product.price.toFixed(2)}</span>
+            <span class="discount">{product.discount}%</span>
+            <span class="original-price">${(product.price / (1 - product.discount / 100)).toFixed(2)}</span>
         </div>
         <div class="add-to-cart-wrapper">
             <QuantitySelector 

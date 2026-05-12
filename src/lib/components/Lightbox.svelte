@@ -1,107 +1,42 @@
-<script>
 
-    import Img1 from "$lib/assets/images/image-product-1.jpg";
-    import Img2 from "$lib/assets/images/image-product-2.jpg";
-    import Img3 from "$lib/assets/images/image-product-3.jpg";
-    import Img4 from "$lib/assets/images/image-product-4.jpg";
+<script>
     import next from "$lib/assets/images/icon-next.svg";
     import previous from "$lib/assets/images/icon-previous.svg";
-    import Lightbox from "$lib/components/Lightbox.svelte";
+    import { trapFocus } from '$lib/attachment.svelte';
 
-
-    const productImgs = [
-        {
-            id: 1,
-            image: Img1,
-            alt: "First Product"
-        },
-        {
-            id: 2,
-            image: Img2,
-            alt: "Second Product"
-        },
-        {
-            id: 3,
-            image: Img3,
-            alt: "Third Product"
-        },
-        {
-            id: 4,
-            image: Img4,
-            alt: "Fourth Product"
-        }
-    ];
-
-    let currentIndex = $state(0);
-    let lightboxOpen = $state(false);
+    let { productImgs, currentIndex, goPrevious, goNext, lightboxOpen, closeLightbox } = $props();
         
-
-    function goPrevious() {
-        if (currentIndex > 0) {
-            currentIndex -= 1;
-        } else {
-            currentIndex = productImgs.length - 1;
-        }
-    }
-
-    function goNext() {
-        if (currentIndex < productImgs.length - 1) {
-            currentIndex += 1;
-        } else {
-            currentIndex = 0;
-        }
-    }
-
-    function closeLightbox() {
-        lightboxOpen = false;
-    }
-
-    function openLightbox() {
-        lightboxOpen = true;
-    }
-
 
 </script>
 
-<div class="carousel">
-    <button class="content disable-sm enable-lg" aria-label="Open Lightbox"
-        onclick={() => openLightbox()}>
-        <img 
-            class="product-img product-img-{productImgs[currentIndex].id}" 
-            src={productImgs[currentIndex].image} 
-            alt={productImgs[currentIndex].alt} />
-    </button>
-    <div class="control hide-lg">
-        <button class="previous" onclick={goPrevious}>
-            <img src={previous} alt="Previous Button" />
+
+<div class="lightbox {lightboxOpen ? 'show-lg' : 'hide-lg'} hide-sm" role="presentation" {@attach (element) => trapFocus(element, '.close', '.lightbox')}>
+        <button class="close" onclick={() => closeLightbox()} aria-label="Close Lightbox"></button>
+        <button class="content" aria-label="View Product Image in Lightbox">
+            <img 
+                class="product-img product-img-{productImgs[currentIndex].id}" 
+                src={productImgs[currentIndex].image} 
+                alt={productImgs[currentIndex].alt} />
         </button>
-        <button class="next" onclick={goNext}>
-            <img src={next} alt="Next Button" />
-        </button>
-    </div>
-    <div class="thumbnails hide-sm show-lg">
-        {#each productImgs as img, index (img.id)}
-            <button class="thumbnail" onclick={() => currentIndex = index}>
-                <img 
-                    class="thumbnail thumbnail-{img.id} {index === currentIndex && !lightboxOpen ? 'active' : ''}" 
-                    src={img.image} 
-                    alt={img.alt} />
+        <div class="control">
+            <button class="previous" onclick={goPrevious} aria-label="Previous Image">
+                <img src={previous} alt="Previous Button" />
             </button>
-        {/each}
-    </div>
+            <button class="next" onclick={goNext} aria-label="Next Image">
+                <img src={next} alt="Next Button" />
+            </button>
+        </div>
+        <div class="thumbnails hide-sm show-lg">
+            {#each productImgs as img, index (img.id)}
+                <button class="thumbnail" onclick={() => currentIndex = index} aria-label={`View ${img.alt} in Lightbox`}>
+                    <img 
+                        class="thumbnail thumbnail-{img.id} {index === currentIndex ? 'active' : ''}" 
+                        src={img.image} 
+                        alt={img.alt} />
+                </button>
+            {/each}
+        </div>
 </div>
-
-{#if lightboxOpen}
-    <Lightbox  
-        productImgs={productImgs} 
-        currentIndex={currentIndex} 
-        goPrevious={goPrevious} 
-        goNext={goNext} 
-        lightboxOpen={lightboxOpen}
-        closeLightbox={closeLightbox}
-    />
-{/if}
-
 <style>
     .carousel {
         max-width: 100%;
@@ -202,6 +137,32 @@
         align-items: center;
         justify-content: center;
         gap: var(--space-400);
+    }
+    
+    .lightbox .content {
+        width: 100%;
+        max-width: 28rem;
+        height: auto;
+    }
+    
+    .lightbox .control {
+        max-width: 28rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    button.close {
+        content: '';
+        width: var(--space-200);
+        height: var(--space-200);
+        background-color: var(--orange-500);
+        mask-image: url('$lib/assets/images/icon-close.svg');
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: right;
+        width: 28rem;
+        cursor: pointer;
     }
 
     .close:focus {
