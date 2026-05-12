@@ -1,12 +1,12 @@
 
 <script>
-    let { productImgs, currentIndex, lightboxOpen, setCurrentIndex } = $props();
+    let { productImgs, currentIndex, lightboxOpen, updateCurrentIndex } = $props();
 </script>
 
 
 <div class="thumbnails hide-sm show-lg">
     {#each productImgs as img, index (img.id)}
-        <button class="thumbnail" onclick={() => setCurrentIndex(index)}>
+        <button class="thumbnail" onclick={() => updateCurrentIndex(index)}>
             <img 
                 class="thumbnail thumbnail-{img.id} {index === currentIndex && !lightboxOpen ? 'active' : ''}" 
                 src={img.image} 

@@ -21,7 +21,7 @@
 
 <style>
     .quantity-selector {
-        background-color: bisque;
+        background-color: var(--grey-50);
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -32,7 +32,7 @@
         border-radius: var(--space-50);
     }
 
-    button {
+    .quantity-selector button {
         border: none;
         color: var(--orange-500);
         background-color: transparent;

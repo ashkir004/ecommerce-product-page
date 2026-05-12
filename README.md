@@ -34,7 +34,7 @@ Your users should be able to:
 2. Attachments in Svelte (Needs more work)
 3. State Management
 4. Passing data via props
-5. Passing event handlers via props
+5. Passing event handlers via props 
 6. Conditionally changing styles via utility classes in different breakpoints (Todo: make it global)
 7. Grid Layout on the Page level
 8. Flexbox Layout on the component level

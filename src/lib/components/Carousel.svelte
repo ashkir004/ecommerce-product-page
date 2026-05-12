@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 
     import Img1 from "$lib/assets/images/image-product-1.jpg";
     import Img2 from "$lib/assets/images/image-product-2.jpg";
@@ -35,7 +35,7 @@
     let currentIndex = $state(0);
     let lightboxOpen = $state(false);
 
-    function setCurrentIndex(index) {
+    function updateCurrentIndex(index: number) {
         return currentIndex = index;
     }
 
@@ -81,7 +81,7 @@
         productImgs={productImgs} 
         currentIndex={currentIndex} 
         lightboxOpen={lightboxOpen}
-        setCurrentIndex={setCurrentIndex}
+        updateCurrentIndex={updateCurrentIndex}
     />
 </div>
 
@@ -93,7 +93,7 @@
         goNext={goNext} 
         lightboxOpen={lightboxOpen}
         closeLightbox={closeLightbox}
-        setCurrentIndex={setCurrentIndex}
+        updateCurrentIndex={updateCurrentIndex}
     />
 {/if}
 
@@ -111,7 +111,6 @@
         max-width: 100%;
         width: 100%;
         height: 100%;
-        /* background-color: var(--orange-500); */
         overflow: hidden;
         border: none;
         cursor: pointer;

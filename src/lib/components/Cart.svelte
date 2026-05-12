@@ -7,7 +7,7 @@
 
 </script>
 
-<section class="cart {isCartOpen ? 'show' : 'hide'}" aria-hidden="{isCartOpen}">
+<section class="cart {isCartOpen ? 'show' : 'hide'}" aria-hidden={isCartOpen}>
     <div class="cart-header">
         <h1>Cart</h1>
     </div>

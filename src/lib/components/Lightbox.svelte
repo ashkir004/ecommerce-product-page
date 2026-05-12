@@ -4,7 +4,7 @@
 	import Control from "./Control.svelte";
     import Thumbnails from "./Thumbnails.svelte";
 
-    let { productImgs, currentIndex, goPrevious, goNext, lightboxOpen, closeLightbox, setCurrentIndex } = $props();
+    let { productImgs, currentIndex, goPrevious, goNext, lightboxOpen, closeLightbox, updateCurrentIndex } = $props();
         
 
 </script>
@@ -25,18 +25,10 @@
             productImgs={productImgs} 
             currentIndex={currentIndex} 
             lightboxOpen={lightboxOpen}
-            setCurrentIndex={setCurrentIndex}
+            updateCurrentIndex={updateCurrentIndex}
         />
 </div>
 <style>
-    .carousel {
-        max-width: 100%;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-400);
-    }
 
     .content {
         max-width: 100%;

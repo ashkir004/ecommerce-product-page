@@ -1,7 +1,7 @@
 <script lang="ts">
     import Navbar from "$lib/components/Navbar.svelte";
     import Carousel from "$lib/components/Carousel.svelte";
-    import QuantitySelector from "$lib/components/Quantity-Selector.svelte";
+    import QuantitySelector from "$lib/components/QuantitySelector.svelte";
     import Cart from "$lib/components/Cart.svelte";
 
     let isCartOpen = $state(false);
@@ -16,14 +16,16 @@
     };
 
     let basket: { product: Product }[] = $state([]);
-    let product = $state({
-        name: 'Fall Limited Edition Sneakers',
-        company: 'Sneaker Company',
-        description: 'These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
-        price: 125.00,
-        discount: 50,
-        quantity: 0
-    });
+    let product = $state(
+        {
+            name: 'Fall Limited Edition Sneakers',
+            company: 'Sneaker Company',
+            description: 'These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.',
+            price: 125.00,
+            discount: 50,
+            quantity: 0
+        }
+    );
 
     function toggleCart(open?: boolean) {
         isCartOpen = open ?? !isCartOpen;
@@ -47,7 +49,8 @@
             basket = [...basket];
         } else {
             if (product.quantity === 0) product.quantity = 1;
-            basket = [...basket, { product }];
+            // shallow-copy the product so the basket owns its own snapshot
+            basket = [...basket, { product: { ...product } }];
         }
     }
 
@@ -58,7 +61,7 @@
 </script>
 
 <main class="main">
-    <Navbar toggleCart={toggleCart} basket={basket} />
+    <Navbar isCartOpen toggleCart={toggleCart} basket={basket} />
     <Cart isCartOpen={isCartOpen} basket={basket} removeFromCart={removeFromCart} />
     <Carousel />
     <section class="product-details">
