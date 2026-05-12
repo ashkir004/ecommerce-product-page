@@ -137,6 +137,10 @@
         width: 100%;
     }
 
+    .btn-checkout:hover {
+        background-color: var(--orange-300);
+    }
+
     .show {
         display: block;
     }

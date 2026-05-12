@@ -182,6 +182,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: var(--orange-300);
     }
 
     .add-to-cart-btn::before {
