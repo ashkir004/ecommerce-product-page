@@ -1,13 +1,28 @@
 
-<script>
+<script lang="ts">
     import productImg from '$lib/assets/images/image-product-1-thumbnail.jpg';
     import deleteImg from '$lib/assets/images/icon-delete.svg';
 
-    let { isCartOpen, basket, removeFromCart } = $props();
+    let { isCartOpen, basket, removeFromCart, toggleCart } = $props();
+
+    function closeOnEscape(node: HTMLElement) {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && isCartOpen) {
+                console.log('Escape key pressed, closing cart');
+                return toggleCart(false);
+            }
+        };
+
+        node.addEventListener('keydown', handleEscape);
+
+        return () => {
+            node.removeEventListener('keydown', handleEscape);
+        };
+    }
 
 </script>
 
-<section class="cart {isCartOpen ? 'show' : 'hide'}" aria-hidden={isCartOpen}>
+<section class="cart {isCartOpen ? 'show' : 'hide'}" {@attach (element) => closeOnEscape(element)}>
     <div class="cart-header">
         <h1>Cart</h1>
     </div>

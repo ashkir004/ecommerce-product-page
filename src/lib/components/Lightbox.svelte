@@ -1,16 +1,53 @@
 
-<script>
-    import { trapFocus } from '$lib/attachment.svelte';
+<script lang="ts">
+    import { on } from 'svelte/events';
 	import Control from "./Control.svelte";
     import Thumbnails from "./Thumbnails.svelte";
 
     let { productImgs, currentIndex, goPrevious, goNext, lightboxOpen, closeLightbox, updateCurrentIndex } = $props();
         
+    function trapFocusLightBox(node: HTMLElement) {
+
+        function focusableElements(): NodeListOf<HTMLElement> {
+            return node.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        }
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                return closeLightbox();
+            }
+
+                if (event.key === 'Tab') {
+                    const elements = focusableElements();
+                    const firstElement = elements[0] as HTMLElement;
+                    const lastElement = elements[elements.length - 1] as HTMLElement;
+    
+                    if (event.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            event.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            event.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                }
+        };
+
+        focusableElements()[0]?.focus();
+        const off = on(node, 'keydown', handleKeyDown);
+
+        return () => {
+            off();
+        };
+    }
 
 </script>
 
 
-<div class="lightbox {lightboxOpen ? 'show-lg' : 'hide-lg'} hide-sm" role="dialog" aria-modal="true" {@attach (element) => trapFocus(element, '.close', '.lightbox')}>
+<div class="lightbox {lightboxOpen ? 'show-lg' : 'hide-lg'} hide-sm" role="dialog" aria-modal="true" {@attach (element) => trapFocusLightBox(element)}>
         <button class="close" onclick={() => closeLightbox()} aria-label="Close Lightbox"></button>
         <button class="content" aria-label="View Product Image in Lightbox">
             <img 
