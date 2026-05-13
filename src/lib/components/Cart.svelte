@@ -3,26 +3,100 @@
     import productImg from '$lib/assets/images/image-product-1-thumbnail.jpg';
     import deleteImg from '$lib/assets/images/icon-delete.svg';
 
-    let { isCartOpen, basket, removeFromCart, toggleCart } = $props();
+    let { isCartOpen, basket, removeFromCart, toggleCart, focusCheckoutTick = 0, focusEntryTarget = 'delete' } = $props();
 
-    function closeOnEscape(node: HTMLElement) {
-        const handleEscape = (event: KeyboardEvent) => {
-            if (event.key === 'Escape' && isCartOpen) {
-                console.log('Escape key pressed, closing cart');
-                return toggleCart(false);
+    let cartNode: HTMLElement | undefined = $state();
+    let checkoutButton: HTMLButtonElement | undefined = $state();
+    let previousIsCartOpen = $state(false);
+    let previousFocusCheckoutTick = $state(0);
+
+    function getFocusableElements(node: HTMLElement): HTMLElement[] {
+        return Array.from(
+            node.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')
+        );
+    }
+
+    function focusCheckout() {
+        checkoutButton?.focus();
+    }
+
+    function focusFirstDeleteOrFallback() {
+        const firstDeleteButton = cartNode?.querySelector<HTMLButtonElement>('.delete-icon');
+        if (firstDeleteButton) {
+            firstDeleteButton.focus();
+            return;
+        }
+
+        focusCheckout();
+    }
+
+    function trapFocusInCart(node: HTMLElement) {
+        const handleKeydown = (event: KeyboardEvent) => {
+            if (!isCartOpen) return;
+
+            if (event.key === 'Escape') {
+                toggleCart(false);
+                const cartToggleButton = document.querySelector('.cart-btn');
+                if (cartToggleButton instanceof HTMLElement) {
+                    cartToggleButton.focus();
+                }
+                event.preventDefault();
+                return;
+            }
+
+            if (event.key !== 'Tab') return;
+
+            const focusable = getFocusableElements(node);
+            if (focusable.length === 0) {
+                event.preventDefault();
+                return;
+            }
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            const current = document.activeElement;
+
+            if (event.shiftKey && current === first) {
+                last.focus();
+                event.preventDefault();
+            }
+
+            if (!event.shiftKey && current === last) {
+                first.focus();
+                event.preventDefault();
             }
         };
 
-        node.addEventListener('keydown', handleEscape);
+        node.addEventListener('keydown', handleKeydown);
 
         return () => {
-            node.removeEventListener('keydown', handleEscape);
+            node.removeEventListener('keydown', handleKeydown);
         };
     }
 
+    $effect(() => {
+        if (isCartOpen && !previousIsCartOpen) {
+            queueMicrotask(() => {
+                if (focusEntryTarget === 'delete') {
+                    focusFirstDeleteOrFallback();
+                    return;
+                }
+
+                focusCheckout();
+            });
+        }
+
+        if (isCartOpen && focusCheckoutTick !== previousFocusCheckoutTick) {
+            queueMicrotask(focusCheckout);
+        }
+
+        previousIsCartOpen = isCartOpen;
+        previousFocusCheckoutTick = focusCheckoutTick;
+    });
+
 </script>
 
-<section class="cart {isCartOpen ? 'show' : 'hide'}" {@attach (element) => closeOnEscape(element)}>
+<section class="cart {isCartOpen ? 'show' : 'hide'}" tabindex="-1" bind:this={cartNode} {@attach (element) => trapFocusInCart(element)}>
     <div class="cart-header">
         <h1>Cart</h1>
     </div>
@@ -49,7 +123,7 @@
             {/each}
         {/if}
         </ul>
-        <button class="btn-checkout">Checkout</button>
+        <button class="btn-checkout" bind:this={checkoutButton}>Checkout</button>
     </div>
 {/key}
 </section>

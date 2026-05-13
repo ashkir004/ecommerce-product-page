@@ -11,7 +11,7 @@
     let tabs = ['Collections', 'Men', 'Women', 'About', 'Contact'];
 
     let isMenuOpen = $state(false);
-    let {isCartOpen, toggleCart, basket } = $props();
+    let {isCartOpen, toggleCart, basket, openCartFromIcon } = $props();
 
 </script>
 
@@ -45,10 +45,12 @@
     </nav>
 
     <div class="cart_avatar-wrapper">
-        <button onclick={() => toggleCart()} aria-label="Toggle Cart" aria-expanded={isCartOpen} class="cart-btn">
+        <button onclick={openCartFromIcon} aria-label="Toggle Cart" aria-expanded={isCartOpen} class="cart-btn">
             <img src={cart} alt="Cart Icon" class="cart" /><span class="basket-length">{basket.length}</span>
         </button>
-        <img src={avatar} alt="User Avatar" class="avatar" />
+        <button>
+            <img src={avatar} alt="User Avatar" class="avatar" />
+        </button>
     </div>
 
 </header>

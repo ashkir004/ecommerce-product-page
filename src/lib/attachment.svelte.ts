@@ -1,7 +1,7 @@
 import { on } from 'svelte/events';
 
-export function trapFocus(node: HTMLElement, nextFocusSelector: string = '.main', currentSelector: string = '.main') {
-	const next: Element | null | undefined = document.activeElement?.querySelector(nextFocusSelector);
+export function trapFocus(node: HTMLElement, nextFocusSelector: string = '.main') {
+	const next = document.activeElement?.querySelector<HTMLElement>(nextFocusSelector);
 
 	function focusable(): HTMLElement[] {
 		return Array.from(node.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));

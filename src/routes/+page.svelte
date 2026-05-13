@@ -5,6 +5,8 @@
     import Cart from "$lib/components/Cart.svelte";
 
     let isCartOpen = $state(false);
+    let focusCheckoutTick = $state(0);
+    let focusEntryTarget = $state<'delete' | 'checkout'>('delete');
 
     type Product = {
         name: string;
@@ -31,6 +33,16 @@
         isCartOpen = open ?? !isCartOpen;
     }
 
+    function openCartFromIcon() {
+        if (isCartOpen) {
+            toggleCart(false);
+            return;
+        }
+
+        focusEntryTarget = 'delete';
+        toggleCart(true);
+    }
+
     function increaseQuantity() {
         product.quantity += 1;
     }
@@ -52,6 +64,10 @@
             // shallow-copy the product so the basket owns its own snapshot
             basket = [...basket, { product: { ...product } }];
         }
+
+        focusEntryTarget = 'checkout';
+        toggleCart(true);
+        focusCheckoutTick += 1;
     }
 
     function removeFromCart(index: number) {
@@ -61,8 +77,7 @@
 </script>
 
 <main class="main">
-    <Navbar isCartOpen toggleCart={toggleCart} basket={basket} />
-    <Cart isCartOpen={isCartOpen} basket={basket} removeFromCart={removeFromCart} toggleCart={toggleCart} />
+    <Navbar isCartOpen toggleCart={toggleCart} basket={basket} openCartFromIcon={openCartFromIcon} />
     <Carousel />
     <section class="product-details">
         <h1 class="company-name">{product.company}</h1>
@@ -83,11 +98,20 @@
             />
 
             <button class="add-to-cart-btn"
-                onclick={addToCart}>
+                onclick={addToCart}
+                aria-label="Add Product to Cart">
                 Add to Cart
             </button>
         </div>
     </section>
+    <Cart
+        isCartOpen={isCartOpen}
+        basket={basket}
+        removeFromCart={removeFromCart}
+        toggleCart={toggleCart}
+        focusCheckoutTick={focusCheckoutTick}
+        focusEntryTarget={focusEntryTarget}
+    />
 </main>
 
 <style>
